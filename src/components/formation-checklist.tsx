@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CHECKLIST } from "@/lib/checklist-data";
+import type { ChecklistItem, ChecklistUiCopy } from "@/lib/copy";
+import { LINKS } from "@/lib/links";
+import { interpolate } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
@@ -9,7 +11,13 @@ import { ExternalLink } from "lucide-react";
 
 const STORAGE_KEY = "ca-llc-field-manual-checklist-v1";
 
-export function FormationChecklist() {
+export function FormationChecklist({
+  items,
+  ui,
+}: {
+  items: ChecklistItem[];
+  ui: ChecklistUiCopy;
+}) {
   const [done, setDone] = useState<Record<string, boolean>>({});
   const [hydrated, setHydrated] = useState(false);
 
@@ -28,10 +36,10 @@ export function FormationChecklist() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
   }, [done, hydrated]);
 
-  const completed = CHECKLIST.filter((item) => done[item.id]).length;
+  const completed = items.filter((item) => done[item.id]).length;
   const pct = useMemo(
-    () => Math.round((completed / CHECKLIST.length) * 100),
-    [completed]
+    () => Math.round((completed / items.length) * 100),
+    [completed, items.length]
   );
 
   return (
@@ -39,11 +47,11 @@ export function FormationChecklist() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="font-heading text-lg font-semibold">
-            {hydrated ? `${completed} of ${CHECKLIST.length} complete` : "Loading…"}
+            {hydrated
+              ? interpolate(ui.complete, { completed, total: items.length })
+              : ui.loading}
           </p>
-          <p className="text-sm text-muted-foreground">
-            Saved in this browser only. Not sent anywhere.
-          </p>
+          <p className="text-sm text-muted-foreground">{ui.savedLocally}</p>
         </div>
         <Button
           variant="outline"
@@ -51,13 +59,14 @@ export function FormationChecklist() {
           onClick={() => setDone({})}
           disabled={!hydrated || completed === 0}
         >
-          Reset
+          {ui.reset}
         </Button>
       </div>
       <Progress value={hydrated ? pct : 0} />
       <ol className="space-y-3">
-        {CHECKLIST.map((item, index) => {
+        {items.map((item, index) => {
           const checked = Boolean(done[item.id]);
+          const href = item.link ? LINKS[item.link].href : undefined;
           return (
             <li
               key={item.id}
@@ -92,14 +101,14 @@ export function FormationChecklist() {
                   <span className="mt-1 block text-sm leading-relaxed text-muted-foreground">
                     {item.detail}
                   </span>
-                  {item.href ? (
+                  {href ? (
                     <a
-                      href={item.href}
+                      href={href}
                       target="_blank"
                       rel="noreferrer"
                       className="mt-2 inline-flex items-center gap-1 text-sm text-foreground underline underline-offset-3"
                     >
-                      Open official site
+                      {ui.openOfficial}
                       <ExternalLink className="size-3.5" />
                     </a>
                   ) : null}
@@ -110,10 +119,7 @@ export function FormationChecklist() {
         })}
       </ol>
       {hydrated && completed === 0 ? (
-        <p className="text-sm text-muted-foreground">
-          Nothing checked yet. Start with the name search — filing under a
-          colliding name just bounces.
-        </p>
+        <p className="text-sm text-muted-foreground">{ui.empty}</p>
       ) : null}
     </div>
   );

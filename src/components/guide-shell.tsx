@@ -1,17 +1,22 @@
 import Link from "next/link";
 import { Disclaimer } from "@/components/disclaimer";
+import type { TocItem } from "@/lib/copy";
 
 export function GuideShell({
   kicker,
   title,
   lede,
   toc,
+  disclaimer,
+  onThisPage,
   children,
 }: {
   kicker?: string;
   title: string;
   lede: string;
-  toc?: { id: string; label: string }[];
+  toc?: TocItem[];
+  disclaimer: string;
+  onThisPage: string;
   children: React.ReactNode;
 }) {
   return (
@@ -29,7 +34,7 @@ export function GuideShell({
           {lede}
         </p>
         <div className="mt-6">
-          <Disclaimer />
+          <Disclaimer text={disclaimer} />
         </div>
         <div className="prose-manual mt-10">{children}</div>
       </article>
@@ -37,10 +42,10 @@ export function GuideShell({
         <aside className="hidden lg:block">
           <nav
             className="sticky top-20 space-y-3"
-            aria-label="On this page"
+            aria-label={onThisPage}
           >
             <p className="text-[11px] font-medium tracking-[0.16em] text-muted-foreground uppercase">
-              On this page
+              {onThisPage}
             </p>
             <ol className="space-y-1.5 border-l border-border pl-3">
               {toc.map((item) => (

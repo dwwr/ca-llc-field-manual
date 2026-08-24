@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { COPY } from "@/lib/copy";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,11 +24,10 @@ const newsreader = Newsreader({
 
 export const metadata: Metadata = {
   title: {
-    default: "California LLC Field Manual for software engineers",
-    template: "%s · CA LLC Field Manual",
+    default: COPY.site.metaTitle,
+    template: COPY.site.metaTitleTemplate,
   },
-  description:
-    "What it actually costs and requires to form a California LLC so you can bill for software engineering work — fees, taxes, sales tax, contracts, and the Delaware trap.",
+  description: COPY.site.metaDescription,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -38,9 +38,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col font-sans">
         <TooltipProvider>
-          <SiteHeader />
+          <SiteHeader nav={COPY.nav} site={COPY.site} />
           <main className="flex-1">{children}</main>
-          <SiteFooter />
+          <SiteFooter
+            disclaimer={COPY.site.disclaimer}
+            note={COPY.site.footerNote}
+          />
         </TooltipProvider>
       </body>
     </html>
