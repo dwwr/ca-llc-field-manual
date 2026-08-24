@@ -62,29 +62,52 @@ const site = {
   mobileNavAria: "Mobile",
   onThisPage: "On this page",
   disclaimer:
-    "This is a practical briefing compiled from California SOS, FTB, CDTFA, IRS, and SSA publications as of August 2026. It is not legal, tax, or insurance advice. Filing fees and tax rules change. Confirm figures on the official sites before you pay or elect anything, and talk to a California CPA and business attorney about your facts.",
+    "This is a practical briefing compiled from California SOS, FTB, CDTFA, IRS, and SSA publications as of August 2026. It is not legal, tax, or insurance advice. Filing fees and tax rules change. Confirm figures on the official sites before you pay or elect anything, and consult a California CPA or business attorney.",
   footerNote:
     "Figures checked against California Franchise Tax Board LLC guidance (updated March 5, 2026), Secretary of State Form LLC-1, CDTFA Regulation 1502, and the SSA 2026 contribution and benefit base.",
 };
 
 const nav: NavItem[] = [
-  { href: "/", label: "Briefing", blurb: "The honest answer and the real cost." },
-  { href: "/should-you", label: "Should you?", blurb: "LLC vs sole prop vs S corp vs Delaware." },
-  { href: "/form", label: "Form it", blurb: "Name, agent, Articles, EIN, bank, licenses." },
-  { href: "/taxes", label: "Taxes", blurb: "$800 tax, LLC fee, SE tax, S corp, PTE." },
-  { href: "/software", label: "Selling code", blurb: "Sales tax, IP, contracts, AB 5, insurance." },
-  { href: "/compliance", label: "Stay current", blurb: "Checklist, calendar, how not to get suspended." },
-  { href: "/resources", label: "Official links", blurb: "SOS, FTB, IRS, CDTFA — not LegalZoom ads." },
+  { href: "/", label: "Briefing", blurb: "Clear advice." },
+  {
+    href: "/should-you",
+    label: "Should you?",
+    blurb: "LLC vs sole prop vs S corp vs Delaware.",
+  },
+  {
+    href: "/form",
+    label: "Form it",
+    blurb: "Name, agent, Articles, EIN, bank, licenses.",
+  },
+  {
+    href: "/taxes",
+    label: "Taxes",
+    blurb: "$800 tax, LLC fee, SE tax, S corp, PTE.",
+  },
+  {
+    href: "/software",
+    label: "Selling code",
+    blurb: "Sales tax, IP, contracts, AB 5, insurance.",
+  },
+  {
+    href: "/compliance",
+    label: "Stay current",
+    blurb: "Checklists, calendars, & compliance.",
+  },
+  {
+    href: "/resources",
+    label: "Official links",
+    blurb: "SOS, FTB, IRS, CDTFA.",
+  },
 ];
 
 const checklistUi = {
   complete: "{completed} of {total} complete",
   loading: "Loading…",
-  savedLocally: "Saved in this browser only. Not sent anywhere.",
+  savedLocally: "Saved in your browser only. Not sent anywhere.",
   reset: "Reset",
   openOfficial: "Open official site",
-  empty:
-    "Nothing checked yet. Start with the name search — filing under a colliding name just bounces.",
+  empty: "Nothing checked yet. Start with the name search.",
 };
 
 const checklist: ChecklistItem[] = [
@@ -115,7 +138,7 @@ const checklist: ChecklistItem[] = [
     id: "oa",
     title: "Sign a written operating agreement",
     detail:
-      "California does not require you to file it, but banks, the IRS, and veil-piercing analysis all want a written agreement — even for a single-member LLC. Date it as of formation. Keep it with your records.",
+      "California does not require you to file it- but banks, the IRS, and the inquisitive will all want a written agreement. Date it as of formation. Keep it with your records.",
     when: "Week 1",
   },
   {
@@ -182,8 +205,7 @@ const checklist: ChecklistItem[] = [
 
 const estimator = {
   title: "What California will charge you",
-  lede:
-    "Rough entity-level cost for a California-resident solo engineer billing clients. Income tax on the profit still sits on your 1040 and 540 either way.",
+  lede: "Rough entity-level cost for a California-resident solo engineer billing clients. Income tax on the profit still sits on your 1040 and 540 either way.",
   grossLabel: "Expected California-source receipts",
   grossHint:
     "Gross receipts the FTB uses for the LLC fee — generally your California-source billings, not profit.",
@@ -235,8 +257,7 @@ const estimator = {
 const home = {
   kicker: "California · 2026 briefing",
   title: "Opening a California LLC to sell your software engineering.",
-  lede:
-    "You are not required to form an LLC to freelance. Forming one in this state is cheap to file and expensive to keep. The LLC does not change how your profit is taxed unless you later elect S corporation status. It can wall off some lawsuit risk if you actually treat it as a company.",
+  lede: "You are not required to form an LLC to freelance. Forming one in this state is cheap to file and expensive to keep. The LLC does not change how your profit is taxed unless you later elect S corporation status. It can wall off some lawsuit risk if you actually treat it as a company.",
   stats: [
     {
       value: "$70",
@@ -257,12 +278,12 @@ const home = {
         "Statement of Information within 90 days, then every two years. Miss it: $250 penalty.",
     },
   ],
-  ninetySecondsTitle: "The 90-second answer",
+  ninetySecondsTitle: "TL;DR:",
   ninetySeconds: [
     "If you live and work in California and you bill companies for custom software — staff-aug, product engineering, architecture, code review — a **California single-member LLC taxed as a disregarded entity** is the usual first entity. You file online, get an EIN, open a bank account, write an operating agreement, and send clients a W-9 in the LLC’s name.",
-    "Do **not** form in Delaware, Wyoming, or Nevada because a blog said it is cheaper. If you live here, California still wants the $800 and a foreign-LLC registration on top of the other state’s fees. That is the most expensive “hack” in this business.",
+    "Do **not** form in Delaware, Wyoming, or Nevada because a blog said it is cheaper. If you live here, California still wants the $800 and a foreign-LLC registration on top of the other state’s fees.",
     "Software engineering is not a California licensed profession. You do not need a professional LLC, a contractor’s license, or a CSBPE. You likely do not collect sales tax on custom development. You still need a city business tax in most places you work from, contracts that assign IP correctly, and insurance if anyone enterprise-shaped is going to sign.",
-    "Stay a sole proprietor (Schedule C under your SSN) only if revenue is small, you have little personal wealth to protect, and no client is asking for an entity. The $800 is a real cost. Once you are billing mid five figures or you own a house, the liability wall is usually worth it.",
+    "Stay a sole proprietor (Schedule C under your SSN) only if revenue is small, you have little personal wealth to protect, and no client is asking for an entity. Once you are billing mid five figures or you own a house, then consider climbing the liability wall.",
   ],
   estimatorTitle: "Run the numbers",
   estimatorLede:
@@ -278,8 +299,7 @@ const home = {
 const shouldYou = {
   kicker: "Entity choice",
   title: "Should you even form an LLC?",
-  lede:
-    "An LLC is a liability wrapper and a filing with the Secretary of State. It is not a tax shelter, a contractor-status badge, or a way to skip California. For a solo engineer the question is almost always: sole proprietor, California LLC, or California LLC that later elects S corporation.",
+  lede: "An LLC is a liability wrapper and a filing with the Secretary of State. It is not a tax shelter, a contractor-status badge, or a way to skip California. Your options for entity are: sole proprietor, California LLC, or California LLC that later elects S corporation.",
   toc: [
     { id: "why", label: "What an LLC actually does" },
     { id: "compare", label: "The real menu" },
@@ -293,7 +313,7 @@ const shouldYou = {
     { type: "h2", id: "why", text: "What an LLC actually does" },
     {
       type: "p",
-      text: "A limited liability company is a legal person separate from you. If the company is sued over work it contracted to do, creditors of the company are supposed to stop at the company’s assets — cash, equipment, receivables — and not your house, personal brokerage, or wages from a W-2 job. That is the whole product.",
+      text: "A limited liability company is a legal person separate from you. If the company is sued over work it contracted to do, creditors of the company are supposed to stop at the company’s assets — cash, equipment, receivables — and not your house, personal brokerage, or wages from a W-2 job.",
     },
     { type: "p", text: "It only holds if you treat the company as a company:" },
     {
@@ -318,7 +338,12 @@ const shouldYou = {
     {
       type: "table",
       headerColumn: true,
-      headers: ["Vehicle", "Liability", "CA entity tax", "When engineers use it"],
+      headers: [
+        "Vehicle",
+        "Liability",
+        "CA entity tax",
+        "When engineers use it",
+      ],
       rows: [
         [
           "Sole proprietor",
@@ -357,7 +382,7 @@ const shouldYou = {
       type: "ul",
       items: [
         "You have savings, equity in a home, or a spouse’s income you do not want sitting next to client work.",
-        "A client’s vendor form asks for an EIN, insurance certificate, and “legal entity name.” Many procurement teams will not pay a human being’s SSN.",
+        "A client’s vendor form asks for an EIN, insurance certificate, and “legal entity name.” Many procurement teams will not pay to a SSN.",
         "You might hire a contractor, take on a partner, or sell a small product later. Starting as an LLC is cheaper than converting later in a hurry.",
         "You want a clean books trail for a mortgage, visa, or future S corp election.",
       ],
@@ -374,8 +399,8 @@ const shouldYou = {
     {
       type: "callout",
       tone: "warn",
-      title: "Cancelling is a filing, not a vibe",
-      text: "Closing the bank account does not stop the tax. File a short-form cancellation (SOS LLC-4/7) and a final FTB return. If you cancel within 12 months of organizing, FTB says you can avoid the first-year $800 — useful if you formed by mistake.",
+      title: "Cancelling takes paperwork.",
+      text: "Closing the bank account does not stop the tax. File a short-form cancellation (SOS LLC-4/7) and a final FTB return. If you cancel within 12 months of organizing, FTB says you can avoid the first-year $800.",
     },
     { type: "h2", id: "delaware", text: "The Delaware / Wyoming trap" },
     {
@@ -419,7 +444,7 @@ const shouldYou = {
     },
     {
       type: "p",
-      text: "If one FAANG-shaped client is 95% of your revenue, sets your hours, and hands you a laptop, an LLC letterhead will not save them — or you — in an audit. Diversify clients. Use your own equipment. Invoice milestones, not a weekly timesheet that looks like payroll.",
+      text: "If one FAANG-shaped client is 95% of your revenue, sets your hours, and hands you a laptop, an LLC letterhead will not save them — or you — in an audit. Diversify clients. Use your own equipment. Invoice per milestones, not via timesheet.",
     },
     {
       type: "p",
@@ -431,8 +456,7 @@ const shouldYou = {
 const form = {
   kicker: "Formation",
   title: "How to actually open the LLC",
-  lede:
-    "A California single-member consulting LLC is a weekend of paperwork if you file online yourself. The work is not the $70 form. The work is the operating agreement, the bank, the city tax, and remembering the $800.",
+  lede: "Filing a California single-member consulting LLC online can be done in a weekend. The hard part is preparing the operating agreement, setting up a business bank account, handling local taxes, and not forgetting the $800 annual fee.",
   toc: [
     { id: "sequence", label: "The sequence" },
     { id: "checklist", label: "Interactive checklist" },
@@ -479,13 +503,14 @@ const form = {
       type: "p",
       text: "Search existing names on bizfile before you get attached to a brand. SOS only checks distinguishability in its own database — not USPTO trademarks and not domain names. Do both searches yourself.",
     },
+    /////
     {
       type: "ul",
       items: [
         "Must contain Limited Liability Company, LLC, or L.L.C. ([§ 17701.08](official:nameRules)).",
         "Cannot include bank, trust, trustee, incorporated, inc., corporation, corp., insurer, or insurance company.",
         "Optional name reservation is $10 if you are waiting on a bank or a cofounder. Most people just file.",
-        "If you want to invoice as “Reyes.dev” while the legal name is “Reyes Engineering LLC,” file a fictitious business name in the county where you operate. That is a county clerk process, not SOS, and often requires a newspaper publication.",
+        "If you want to invoice as “Smith.dev” while the legal name is “Smith Engineering LLC,” file a fictitious business name in the county where you operate. That is a county clerk process, not SOS, and often requires a newspaper publication.",
       ],
     },
     { type: "h3", text: "Agent for service of process" },
@@ -593,7 +618,7 @@ const form = {
     { type: "h2", id: "after", text: "Then you can invoice" },
     {
       type: "p",
-      text: "Send a W-9 with the LLC name and EIN (not your SSN). Sign MSAs as “Reyes Engineering LLC, by Derek Warner-Reyes, Member.” Put the legal name on the invoice footer with the California address.",
+      text: "Send a W-9 with the LLC name and EIN (not your SSN). Sign MSAs as “Smith Engineering LLC, by John Smith, Member.” Put the legal name on the invoice footer with the California address.",
     },
     {
       type: "p",
@@ -606,8 +631,7 @@ const taxes = {
   metaTitle: "Taxes",
   kicker: "Taxes",
   title: "What you will actually pay",
-  lede:
-    "A California single-member LLC does not replace your 1040. It adds an $800 franchise tax, a possible gross-receipts fee, a Form 568 information return, and — if you elect S corporation status — payroll and a 1.5% entity tax. Income tax still lands on you.",
+  lede: "A California single-member LLC does not replace your 1040. It adds an $800 franchise tax, a possible gross-receipts fee, a Form 568 information return, and — if you elect S corporation status — payroll and a 1.5% entity tax. Income tax still lands on you.",
   toc: [
     { id: "default", label: "Default: disregarded" },
     { id: "eight", label: "The $800" },
@@ -677,8 +701,15 @@ const taxes = {
       type: "p",
       text: "LLCs that elect to be taxed as corporations **do not pay this fee**. They pay corporation tax instead (for an S corp, 1.5% of net, minimum $800).",
     },
-    { type: "h2", id: "federal", text: "Federal income and self-employment tax" },
-    { type: "p", text: "Disregarded LLC profit is self-employment income. 2026 rates:" },
+    {
+      type: "h2",
+      id: "federal",
+      text: "Federal income and self-employment tax",
+    },
+    {
+      type: "p",
+      text: "Disregarded LLC profit is self-employment income. 2026 rates:",
+    },
     {
       type: "ul",
       items: [
@@ -765,7 +796,10 @@ const taxes = {
       type: "p",
       text: "A workable habit: every time a client pays, move 30–40% of the net into a separate savings account titled to the LLC (or a tax reserve you do not touch). Adjust after the first year when you know your effective rate.",
     },
-    { type: "p", text: "Annual California LLC calendar (calendar-year filer):" },
+    {
+      type: "p",
+      text: "Annual California LLC calendar (calendar-year filer):",
+    },
     {
       type: "ul",
       items: [
@@ -791,8 +825,7 @@ const software = {
   metaTitle: "Selling software work",
   kicker: "The actual business",
   title: "Selling your engineering through an LLC",
-  lede:
-    "The LLC is the wrapper. The product is still your time, judgment, and code. California sales tax, copyright, contractor classification, and insurance are where software consultancies actually get hurt — not the $70 Articles.",
+  lede: "The LLC is the wrapper. The product is still your time, judgment, and code. California sales tax, copyright, contractor classification, and insurance are where software consultancies actually get hurt — not the $70 Articles.",
   toc: [
     { id: "what", label: "What you are selling" },
     { id: "sales-tax", label: "Sales and use tax" },
@@ -951,8 +984,7 @@ const compliance = {
   metaTitle: "Stay in good standing",
   kicker: "Compliance",
   title: "How not to get suspended",
-  lede:
-    "California will let the LLC go dormant, then bill you $800 a year plus penalties until someone notices. Good standing is a short list: Statement of Information, FTB tax, and a live agent. Miss those and you cannot sue, you cannot legally contract, and the name can walk away.",
+  lede: "California will let the LLC go dormant, then bill you $800 a year plus penalties until someone notices. Good standing is a short list: Statement of Information, FTB tax, and a live agent. Miss those and you cannot sue, you cannot legally contract, and the name can walk away.",
   toc: [
     { id: "calendar", label: "The calendar" },
     { id: "checklist", label: "Formation checklist" },
@@ -1048,8 +1080,7 @@ const resources = {
   metaTitle: "Official links",
   kicker: "Sources",
   title: "Go to the agencies, not the ads",
-  lede:
-    "Every figure in this manual traces to a state or federal page. Formation mills will rank above these in search. Bookmark the official ones.",
+  lede: "Every figure in this manual traces to a state or federal page. Formation mills will rank above these in search. Bookmark the official ones.",
   blocks: [
     { type: "h2", id: "list", text: "Primary sources" },
     { type: "linksList" },
