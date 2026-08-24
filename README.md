@@ -1,13 +1,13 @@
 # California LLC Field Manual for software engineers
 
-A practical briefing on forming a **California LLC** so you can bill for software engineering work — custom development, staff-aug, architecture, code review.
+A practical briefing on forming a **California LLC** so you can bill for software engineering work — custom development, staff-aug, architecture, code review. This is not legal, tax, or insurance advice.
 
-It is a field manual, not a law firm. Figures come from the California Secretary of State, Franchise Tax Board, CDTFA, IRS, and SSA as of August 2026. Confirm them on those sites before you pay or elect anything.
+Figures come from the California Secretary of State, Franchise Tax Board, CDTFA, IRS, and SSA as of August 2026. Confirm them on those sites before you pay or elect anything. Again, this is not legal, tax, or insurance advice.
 
 ## What it covers
 
 - Whether an LLC is worth California’s **$800 annual tax** for a solo engineer
-- The Delaware / Wyoming trap if you live and work here
+- The Delaware / Wyoming trap
 - Filing sequence: name, agent, Articles ($70), EIN, bank, Statement of Information ($20)
 - Taxes: disregarded entity vs S corp, the gross-receipts LLC fee, PTE tax, QBI
 - Sales tax on custom software vs canned software (Regulation 1502 / R&TC § 6010.9)
