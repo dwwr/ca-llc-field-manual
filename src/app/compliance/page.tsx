@@ -1,10 +1,9 @@
 import { GuidePage } from "@/components/content";
 import { COPY } from "@/lib/copy";
+import { guideMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: COPY.compliance.metaTitle,
-};
+export const metadata = guideMetadata("/compliance", COPY.compliance);
 
 export default function CompliancePage() {
-  return <GuidePage page={COPY.compliance} />;
+  return <GuidePage page={COPY.compliance} path="/compliance" />;
 }

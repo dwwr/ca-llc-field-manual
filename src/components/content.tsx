@@ -14,13 +14,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { AdSlot } from "@/components/ad-slot";
+import { JsonLd } from "@/components/json-ld";
 import { COPY, type Block, type GuideCopy } from "@/lib/copy";
 import { FTB_LLC_FEE_BRACKETS, formatUsd } from "@/lib/fees";
+import { articleJsonLd } from "@/lib/seo";
 import { interpolate } from "@/lib/utils";
 import { LINKS } from "@/lib/links";
 
 const TOKEN =
-  /\[([^\]]+)\]\((official:[\w]+|page:[^)]+|https?:[^)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*/g;
+  /\[([^\]]+)\]\((official:[\w]+|page:[^)]+|https?:[^)]+|mailto:[^)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*/g;
 
 export function RichText({ text }: { text: string }) {
   const nodes: React.ReactNode[] = [];
@@ -48,6 +51,16 @@ export function RichText({ text }: { text: string }) {
           <PageLink key={key++} href={target.slice("page:".length)}>
             {label}
           </PageLink>
+        );
+      } else if (target.startsWith("mailto:")) {
+        nodes.push(
+          <a
+            key={key++}
+            href={target}
+            className="underline decoration-primary/40 underline-offset-3 hover:decoration-primary"
+          >
+            {label}
+          </a>
         );
       } else {
         nodes.push(
@@ -227,18 +240,30 @@ export function BlockList({ blocks }: { blocks: Block[] }) {
   );
 }
 
-export function GuidePage({ page }: { page: GuideCopy }) {
+export function GuidePage({
+  page,
+  path,
+  ads = true,
+}: {
+  page: GuideCopy;
+  path: string;
+  ads?: boolean;
+}) {
   return (
-    <GuideShell
-      kicker={page.kicker}
-      title={page.title}
-      lede={page.lede}
-      toc={page.toc}
-      disclaimer={COPY.site.disclaimer}
-      onThisPage={COPY.site.onThisPage}
-    >
-      <BlockList blocks={page.blocks} />
-    </GuideShell>
+    <>
+      <JsonLd data={articleJsonLd(path, page)} />
+      <GuideShell
+        kicker={page.kicker}
+        title={page.title}
+        lede={page.lede}
+        toc={page.toc}
+        disclaimer={COPY.site.disclaimer}
+        onThisPage={COPY.site.onThisPage}
+        ad={ads ? <AdSlot /> : null}
+      >
+        <BlockList blocks={page.blocks} />
+      </GuideShell>
+    </>
   );
 }
 
@@ -276,6 +301,8 @@ export function HomeView() {
           </div>
         ))}
       </dl>
+
+      <AdSlot />
 
       <section className="mt-16">
         <h2 className="font-heading text-3xl font-semibold tracking-tight">

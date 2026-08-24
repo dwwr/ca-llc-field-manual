@@ -42,12 +42,18 @@ export type Block =
   | { type: "linksList" };
 
 export type GuideCopy = {
-  metaTitle?: string;
+  metaTitle: string;
+  metaDescription: string;
   kicker: string;
   title: string;
   lede: string;
   toc?: TocItem[];
   blocks: Block[];
+};
+
+export type LegalNavItem = {
+  href: string;
+  label: string;
 };
 
 const site = {
@@ -57,14 +63,25 @@ const site = {
     "What it actually costs and requires to form a California LLC so you can bill for software engineering work — fees, taxes, sales tax, contracts, and the Delaware trap.",
   headerName: "CA LLC Field Manual",
   headerTagline: "for software engineers",
+  ogAlt: "CA LLC Field Manual for software engineers",
+  datePublished: "2026-08-01",
+  dateModified: "2026-08-24",
+  githubUrl: "https://github.com/dwwr/ca-llc-field-manual",
   menuAria: "Sections",
   openMenu: "Open menu",
   mobileNavAria: "Mobile",
   onThisPage: "On this page",
+  adLabel: "Advertisement",
   disclaimer:
     "This is a practical briefing compiled from California SOS, FTB, CDTFA, IRS, and SSA publications as of August 2026. It is not legal, tax, or insurance advice. Filing fees and tax rules change. Confirm figures on the official sites before you pay or elect anything, and consult a California CPA or business attorney.",
   footerNote:
     "Figures checked against California Franchise Tax Board LLC guidance (updated March 5, 2026), Secretary of State Form LLC-1, CDTFA Regulation 1502, and the SSA 2026 contribution and benefit base.",
+  footerLegalAria: "About and legal",
+  legalNav: [
+    { href: "/about", label: "About" },
+    { href: "/privacy", label: "Privacy" },
+    { href: "/contact", label: "Contact" },
+  ] satisfies LegalNavItem[],
 };
 
 const nav: NavItem[] = [
@@ -255,6 +272,8 @@ const estimator = {
 };
 
 const home = {
+  metaDescription:
+    "Costs, taxes, and the Delaware trap: a field manual for California software engineers deciding whether to form an LLC — $70 to file, $800 a year to keep.",
   kicker: "California · 2026 briefing",
   title: "Opening a California LLC to sell your software engineering.",
   lede: "You are not required to form an LLC to freelance. Forming one in this state is cheap to file and expensive to keep. The LLC does not change how your profit is taxed unless you later elect S corporation status. It can wall off some lawsuit risk if you actually treat it as a company.",
@@ -297,6 +316,9 @@ const home = {
 };
 
 const shouldYou = {
+  metaTitle: "Should you form a California LLC?",
+  metaDescription:
+    "When a California LLC is worth the $800 annual tax for a software engineer, when to stay a sole proprietor, and why Delaware or Wyoming usually costs more if you live here.",
   kicker: "Entity choice",
   title: "Should you even form an LLC?",
   lede: "An LLC is a liability wrapper and a filing with the Secretary of State. It is not a tax shelter, a contractor-status badge, or a way to skip California. Your options for entity are: sole proprietor, California LLC, or California LLC that later elects S corporation.",
@@ -454,6 +476,9 @@ const shouldYou = {
 } satisfies GuideCopy;
 
 const form = {
+  metaTitle: "How to form a California LLC",
+  metaDescription:
+    "File Articles yourself on bizfile: name, agent, $70 LLC-1, EIN, bank, Statement of Information, city tax, and the $800 FTB payment — in order.",
   kicker: "Formation",
   title: "How to actually open the LLC",
   lede: "Filing a California single-member consulting LLC online can be done in a weekend. The hard part is preparing the operating agreement, setting up a business bank account, handling local taxes, and not forgetting the $800 annual fee.",
@@ -628,7 +653,9 @@ const form = {
 } satisfies GuideCopy;
 
 const taxes = {
-  metaTitle: "Taxes",
+  metaTitle: "California LLC taxes: $800, LLC fee, S corp",
+  metaDescription:
+    "The $800 franchise tax, gross-receipts LLC fee, self-employment tax, S corporation election, PTE tax, and QBI for a California single-member LLC.",
   kicker: "Taxes",
   title: "What you will actually pay",
   lede: "A California single-member LLC does not replace your 1040. It adds an $800 franchise tax, a possible gross-receipts fee, a Form 568 information return, and — if you elect S corporation status — payroll and a 1.5% entity tax. Income tax still lands on you.",
@@ -822,7 +849,9 @@ const taxes = {
 } satisfies GuideCopy;
 
 const software = {
-  metaTitle: "Selling software work",
+  metaTitle: "California sales tax on custom software",
+  metaDescription:
+    "Sales tax, IP assignment, contracts, AB 5, and insurance for a California software engineering LLC selling custom development versus canned software.",
   kicker: "The actual business",
   title: "Selling your engineering through an LLC",
   lede: "The LLC is the wrapper. The product is still your time, judgment, and code. California sales tax, copyright, contractor classification, and insurance are where software consultancies actually get hurt — not the $70 Articles.",
@@ -981,7 +1010,9 @@ const software = {
 } satisfies GuideCopy;
 
 const compliance = {
-  metaTitle: "Stay in good standing",
+  metaTitle: "California LLC compliance calendar",
+  metaDescription:
+    "Statement of Information, the $800 FTB tax, suspension, records, and how to cancel a California LLC so it stops billing you.",
   kicker: "Compliance",
   title: "How not to get suspended",
   lede: "California will let the LLC go dormant, then bill you $800 a year plus penalties until someone notices. Good standing is a short list: Statement of Information, FTB tax, and a live agent. Miss those and you cannot sue, you cannot legally contract, and the name can walk away.",
@@ -1077,7 +1108,9 @@ const compliance = {
 } satisfies GuideCopy;
 
 const resources = {
-  metaTitle: "Official links",
+  metaTitle: "Official California LLC links",
+  metaDescription:
+    "Secretary of State, Franchise Tax Board, IRS, and CDTFA pages this manual cites — not formation-mill ads.",
   kicker: "Sources",
   title: "Go to the agencies, not the ads",
   lede: "Every figure in this manual traces to a state or federal page. Formation mills will rank above these in search. Bookmark the official ones.",
@@ -1095,6 +1128,115 @@ const resources = {
     },
   ],
 } satisfies GuideCopy;
+
+const about = {
+  metaTitle: "About",
+  metaDescription:
+    "Who writes the California LLC Field Manual, where the figures come from, and why this is not a law firm.",
+  kicker: "About",
+  title: "A field manual, not a law firm",
+  lede: "This site exists so a California software engineer can decide whether to form an LLC, file it without a mill, and know what the $800 actually buys — without sitting through a webinar.",
+  blocks: [
+    { type: "h2", id: "who", text: "Who writes this" },
+    {
+      type: "p",
+      text: "A software engineer in California. I am not a lawyer, a CPA, an enrolled agent, or a registered tax preparer. Nothing here is legal, tax, or insurance advice for your facts.",
+    },
+    { type: "h2", id: "sources", text: "Where the numbers come from" },
+    {
+      type: "p",
+      text: "Fees, due dates, and tax rules are taken from California Secretary of State forms, Franchise Tax Board LLC guidance (updated March 5, 2026), CDTFA Regulation 1502, IRS publications, and the SSA 2026 contribution and benefit base. Last reviewed August 2026. Confirm them on the [official pages](page:/resources) before you pay or elect anything.",
+    },
+    {
+      type: "p",
+      text: "This site is not affiliated with the Secretary of State, the Franchise Tax Board, the IRS, CDTFA, or any formation mill.",
+    },
+    { type: "h2", id: "ads", text: "How the site stays up" },
+    {
+      type: "p",
+      text: "Once Google approves the publisher account, display ads may appear. They are labeled. The manual still will not send you to LegalZoom. See [Privacy](page:/privacy) for cookies and opt-outs.",
+    },
+  ],
+} satisfies GuideCopy;
+
+const privacy = {
+  metaTitle: "Privacy",
+  metaDescription:
+    "What this site stores in your browser, how Google ads and analytics work, and how to opt out of personalized ads in California.",
+  kicker: "Privacy",
+  title: "Privacy policy",
+  lede: "This site does not have accounts. It does not want your Social Security number. A few third parties may still see that you visited, which is what this page is for.",
+  blocks: [
+    { type: "h2", id: "collect", text: "What we collect" },
+    {
+      type: "p",
+      text: "The formation checklist is saved in your browser’s local storage. It never leaves your device. There is no login, mailing list, or server-side profile.",
+    },
+    {
+      type: "p",
+      text: "The host (Vercel) and the browser’s request itself produce ordinary technical logs — IP address, user agent, pages requested — used to run and debug the site. We do not sell those logs.",
+    },
+    { type: "h2", id: "ads", text: "Advertising (Google AdSense)" },
+    {
+      type: "p",
+      text: "When ads are enabled, Google AdSense may use cookies and similar technology to show ads, measure them, and (unless you opt out) personalize them. Google’s policies: [Google Privacy](https://policies.google.com/privacy) and [how Google uses data on partner sites](https://policies.google.com/technologies/partner-sites).",
+    },
+    {
+      type: "p",
+      text: "Opt out of personalized Google ads at [adssettings.google.com](https://adssettings.google.com). California residents can also use the opt-out Google shows under US state regulations in AdSense Privacy & messaging. We do not sell personal information for money. Personalized advertising can still count as a “sale” or “sharing” under CCPA/CPRA; the Google controls are how you say no.",
+    },
+    { type: "h2", id: "analytics", text: "Analytics" },
+    {
+      type: "p",
+      text: "If Google Analytics is configured, Google may collect usage data (pages viewed, approximate location, device) under [Google’s privacy policy](https://policies.google.com/privacy). We use it to see whether anyone is reading this, not to identify you.",
+    },
+    { type: "h2", id: "cookies", text: "Cookies" },
+    {
+      type: "p",
+      text: "This site does not set first-party tracking cookies. Google may set cookies for ads or analytics when those products are on. You can block cookies in your browser; ads may still show, just less tailored.",
+    },
+    { type: "h2", id: "children", text: "Children" },
+    {
+      type: "p",
+      text: "This manual is for adults forming a business. It is not directed at children under 13.",
+    },
+    { type: "h2", id: "changes", text: "Changes" },
+    {
+      type: "p",
+      text: "If this policy changes, the date on this page will change. Last updated August 2026.",
+    },
+    { type: "h2", id: "contact", text: "Contact" },
+    {
+      type: "p",
+      text: "Questions about privacy: [Contact](page:/contact).",
+    },
+  ],
+} satisfies GuideCopy;
+
+const contact = {
+  metaTitle: "Contact",
+  metaDescription:
+    "Corrections and questions about the California LLC Field Manual. Not a place to get legal or tax advice.",
+  kicker: "Contact",
+  title: "Contact",
+  lede: "Corrections to fees, links, or dates are welcome. Advice about your LLC is not something this inbox can give you.",
+  blocks: [
+    { type: "h2", id: "reach", text: "How to reach the author" },
+    {
+      type: "p",
+      text: "If a figure looks wrong, or an official URL moved, say so. If you need an entity formed or a tax election, that is a California CPA and a business attorney — [official starting points](page:/resources).",
+    },
+  ],
+} satisfies GuideCopy;
+
+const contactUi = {
+  emailLine:
+    "Email [{email}](mailto:{email}). Do not send tax returns, EINs, or anything you would not put on a postcard.",
+  githubLine:
+    "You can also open an issue on [GitHub](https://github.com/dwwr/ca-llc-field-manual).",
+  noEmailLine:
+    "No public email is configured yet. Open an issue on [GitHub](https://github.com/dwwr/ca-llc-field-manual).",
+};
 
 const llcFeeTable = {
   incomeHeader: "California total income",
@@ -1116,6 +1258,10 @@ export const COPY = {
   software,
   compliance,
   resources,
+  about,
+  privacy,
+  contact,
+  contactUi,
   llcFeeTable,
 };
 
