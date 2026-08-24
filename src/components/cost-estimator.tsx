@@ -6,14 +6,17 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
+import { cn, interpolate } from "@/lib/utils";
 import {
+  FTB,
   MONTHS,
+  SOS,
   estimate,
   formatUsd,
   llcGrossReceiptsFee,
 } from "@/lib/fees";
 import { Callout } from "@/components/callout";
+import type { EstimatorCopy } from "@/lib/copy";
 
 function firstValue(v: number | readonly number[]) {
   return Array.isArray(v) ? (v[0] ?? 0) : v;
@@ -41,7 +44,7 @@ function Row({
   );
 }
 
-export function CostEstimator() {
+export function CostEstimator({ copy }: { copy: EstimatorCopy }) {
   const [gross, setGross] = useState(180_000);
   const [expensePct, setExpensePct] = useState(15);
   const [month, setMonth] = useState(0);
@@ -69,19 +72,13 @@ export function CostEstimator() {
     <div className="not-prose grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
       <Card className="shadow-none">
         <CardHeader className="pb-2">
-          <CardTitle className="font-heading text-xl">
-            What California will charge you
-          </CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Rough entity-level cost for a California-resident solo engineer
-            billing clients. Income tax on the profit still sits on your 1040
-            and 540 either way.
-          </p>
+          <CardTitle className="font-heading text-xl">{copy.title}</CardTitle>
+          <p className="text-sm text-muted-foreground">{copy.lede}</p>
         </CardHeader>
         <CardContent className="space-y-7">
           <div className="space-y-3">
             <div className="flex items-baseline justify-between">
-              <Label htmlFor="gross">Expected California-source receipts</Label>
+              <Label htmlFor="gross">{copy.grossLabel}</Label>
               <span className="font-mono text-sm tabular-nums">
                 {formatUsd(gross)}
               </span>
@@ -94,15 +91,12 @@ export function CostEstimator() {
               value={[gross]}
               onValueChange={(v) => setGross(firstValue(v))}
             />
-            <p className="text-xs text-muted-foreground">
-              Gross receipts the FTB uses for the LLC fee — generally your
-              California-source billings, not profit.
-            </p>
+            <p className="text-xs text-muted-foreground">{copy.grossHint}</p>
           </div>
 
           <div className="space-y-3">
             <div className="flex items-baseline justify-between">
-              <Label htmlFor="exp">Deductible expenses</Label>
+              <Label htmlFor="exp">{copy.expensesLabel}</Label>
               <span className="font-mono text-sm tabular-nums">
                 {expensePct}% · {formatUsd(gross * (expensePct / 100))}
               </span>
@@ -119,7 +113,7 @@ export function CostEstimator() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="month">Formation month (2026)</Label>
+              <Label htmlFor="month">{copy.formationMonthLabel}</Label>
               <select
                 id="month"
                 className={selectClass}
@@ -134,16 +128,18 @@ export function CostEstimator() {
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="agent">Registered agent</Label>
+              <Label htmlFor="agent">{copy.registeredAgentLabel}</Label>
               <select
                 id="agent"
                 className={selectClass}
                 value={agent}
                 onChange={(e) => setAgent(Number(e.target.value))}
               >
-                <option value={0}>Yourself (free)</option>
-                <option value={125}>Commercial (~$125/yr)</option>
-                <option value={300}>Premium (~$300/yr)</option>
+                {copy.registeredAgentOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -157,11 +153,9 @@ export function CostEstimator() {
               className="mt-0.5"
             />
             <span>
-              <span className="font-medium">Model an S corporation election</span>
+              <span className="font-medium">{copy.sCorpLabel}</span>
               <span className="mt-0.5 block text-muted-foreground">
-                Pays a reasonable W-2 salary; leftover profit as distributions.
-                California then charges 1.5% of S corp net income (minimum $800)
-                instead of the LLC gross-receipts fee.
+                {copy.sCorpHint}
               </span>
             </span>
           </label>
@@ -169,7 +163,7 @@ export function CostEstimator() {
           {sCorp ? (
             <div className="space-y-3 rounded-lg border border-border bg-muted/40 p-4">
               <div className="flex items-baseline justify-between">
-                <Label htmlFor="sal">Reasonable salary</Label>
+                <Label htmlFor="sal">{copy.salaryLabel}</Label>
                 <span className="font-mono text-sm tabular-nums">
                   {formatUsd(Math.min(salary, result.profit))}
                 </span>
@@ -183,9 +177,7 @@ export function CostEstimator() {
                 onValueChange={(v) => setSalary(firstValue(v))}
               />
               <p className="text-xs text-muted-foreground">
-                A common starting point for a hands-on consultant is about 50–60%
-                of profit ({formatUsd(defaultSalary)} here). Too low and the IRS
-                recharacterizes distributions as wages.
+                {interpolate(copy.salaryHint, { salary: formatUsd(defaultSalary) })}
               </p>
             </div>
           ) : null}
@@ -196,50 +188,49 @@ export function CostEstimator() {
         <Card className="shadow-none ring-1 ring-primary/20">
           <CardHeader className="pb-2">
             <p className="text-[11px] font-medium tracking-[0.16em] text-primary uppercase">
-              Year-one entity cost
+              {copy.yearOneKicker}
             </p>
             <p className="font-heading text-4xl font-semibold tracking-tight tabular-nums">
               {formatUsd(result.yearOneEntityCost)}
             </p>
             <p className="text-sm text-muted-foreground">
-              SOS filings + California entity tax
-              {sCorp ? " (S corp 1.5% / $800)" : " ($800 + LLC fee if any)"}
+              {copy.yearOneSub}
+              {sCorp ? copy.yearOneSubSCorp : copy.yearOneSubLlc}
             </p>
           </CardHeader>
           <CardContent className="space-y-2.5">
             <Row
-              label="Articles + first Statement of Information"
-              value={formatUsd(70 + 20)}
+              label={copy.articlesRow}
+              value={formatUsd(SOS.articlesOfOrganization + SOS.statementOfInformation)}
               muted
             />
             {agent > 0 ? (
-              <Row label="Registered agent" value={formatUsd(agent)} muted />
+              <Row label={copy.agentRow} value={formatUsd(agent)} muted />
             ) : null}
             {sCorp ? (
               <Row
-                label="CA S corp tax (greater of $800 or 1.5%)"
+                label={copy.sCorpTaxRow}
                 value={formatUsd(result.sCorpTax)}
               />
             ) : (
               <>
-                <Row label="Annual LLC tax (FTB 3522)" value={formatUsd(800)} />
                 <Row
-                  label={
-                    llcFeeAtGross
-                      ? "LLC fee (gross receipts)"
-                      : "LLC fee (under $250k)"
-                  }
+                  label={copy.llcTaxRow}
+                  value={formatUsd(FTB.annualFranchiseTax)}
+                />
+                <Row
+                  label={llcFeeAtGross ? copy.llcFeeRow : copy.llcFeeUnderRow}
                   value={formatUsd(result.llcFee)}
                 />
               </>
             )}
             <Separator className="my-2" />
             <Row
-              label="Each later year (approx.)"
+              label={copy.laterYearRow}
               value={formatUsd(result.ongoingEntityCost)}
             />
             <Row
-              label="First $800 due"
+              label={copy.firstDueRow}
               value={result.firstDue.label.replace(", 2026", "").replace(", 2027", " ’27")}
               muted
             />
@@ -248,57 +239,46 @@ export function CostEstimator() {
 
         <Card className="shadow-none">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Payroll / SE tax (federal)</CardTitle>
+            <CardTitle className="text-base">{copy.payrollTitle}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2.5">
-            <Row label="Net profit modeled" value={formatUsd(result.profit)} />
+            <Row label={copy.netProfitRow} value={formatUsd(result.profit)} />
             {sCorp ? (
-              <Row
-                label="Employer + employee FICA on salary"
-                value={formatUsd(result.payrollTax)}
-              />
+              <Row label={copy.ficaRow} value={formatUsd(result.payrollTax)} />
             ) : (
-              <Row
-                label="Self-employment tax (15.3% on 92.35%)"
-                value={formatUsd(result.seTax)}
-              />
+              <Row label={copy.seTaxRow} value={formatUsd(result.seTax)} />
             )}
             <p className="pt-1 text-xs leading-relaxed text-muted-foreground">
-              {sCorp
-                ? "S corp savings only exist on profit above a defensible salary. Add a payroll service ($40–$80/mo), EDD registration, and usually workers’ compensation. This card does not include those."
-                : "Self-employment tax is the 12.4% Social Security + 2.9% Medicare levy on net earnings. Half is deductible on the 1040. An LLC taxed as a disregarded entity does not reduce this."}
+              {sCorp ? copy.payrollNoteSCorp : copy.payrollNoteSe}
             </p>
           </CardContent>
         </Card>
       </div>
 
       {gross === 0 ? (
-        <Callout tone="note" title="Empty year">
-          With $0 receipts you still owe the $70 filing fee, $20 Statement of
-          Information, and $800 annual tax — about $890 to exist, then $800
-          every year until you cancel with the Secretary of State.
+        <Callout tone="note" title={copy.emptyYearTitle}>
+          {copy.emptyYearBody}
         </Callout>
       ) : null}
 
       {result.twoPayments ? (
         <div className="lg:col-span-2">
-          <Callout tone="warn" title="Two $800 bills close together">
-            Forming in {MONTHS[month]} means the first-year tax is due{" "}
-            {result.firstDue.label}, and the second-year tax is due April 15 of
-            that same calendar year. Budget $1,600 to FTB in a short window, not
-            one $800.
+          <Callout tone="warn" title={copy.twoPaymentsTitle}>
+            {interpolate(copy.twoPaymentsBody, {
+              month: MONTHS[month],
+              firstDue: result.firstDue.label,
+            })}
           </Callout>
         </div>
       ) : null}
 
       {result.nextFeeCliff && gross >= 200000 && !sCorp ? (
         <div className="lg:col-span-2">
-          <Callout tone="note" title="Gross-receipts cliff">
-            At {formatUsd(result.nextFeeCliff.at)} of California total income
-            the LLC fee jumps by {formatUsd(result.nextFeeCliff.extra)}. The
-            fee is based on receipts, not profit — a high-bill, high-expense
-            year can still trigger it. An S corp election replaces this fee
-            with the 1.5% income tax.
+          <Callout tone="note" title={copy.cliffTitle}>
+            {interpolate(copy.cliffBody, {
+              at: formatUsd(result.nextFeeCliff.at),
+              extra: formatUsd(result.nextFeeCliff.extra),
+            })}
           </Callout>
         </div>
       ) : null}
