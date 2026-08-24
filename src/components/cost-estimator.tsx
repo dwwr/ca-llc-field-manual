@@ -5,14 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import {
   MONTHS,
   estimate,
@@ -24,6 +18,11 @@ import { Callout } from "@/components/callout";
 function firstValue(v: number | readonly number[]) {
   return Array.isArray(v) ? (v[0] ?? 0) : v;
 }
+
+const selectClass = cn(
+  "h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none",
+  "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+);
 
 function Row({
   label,
@@ -120,47 +119,41 @@ export function CostEstimator() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label>Formation month (2026)</Label>
-              <Select
-                value={String(month)}
-                onValueChange={(v) => setMonth(Number(v))}
+              <Label htmlFor="month">Formation month (2026)</Label>
+              <select
+                id="month"
+                className={selectClass}
+                value={month}
+                onChange={(e) => setMonth(Number(e.target.value))}
               >
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {MONTHS.map((name, i) => (
-                    <SelectItem key={name} value={String(i)}>
-                      {name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                {MONTHS.map((name, i) => (
+                  <option key={name} value={i}>
+                    {name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="space-y-2">
-              <Label>Registered agent</Label>
-              <Select
-                value={String(agent)}
-                onValueChange={(v) => setAgent(Number(v))}
+              <Label htmlFor="agent">Registered agent</Label>
+              <select
+                id="agent"
+                className={selectClass}
+                value={agent}
+                onChange={(e) => setAgent(Number(e.target.value))}
               >
-                <SelectTrigger className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="0">Yourself (free)</SelectItem>
-                  <SelectItem value="125">Commercial (~$125/yr)</SelectItem>
-                  <SelectItem value="300">Premium (~$300/yr)</SelectItem>
-                </SelectContent>
-              </Select>
+                <option value={0}>Yourself (free)</option>
+                <option value={125}>Commercial (~$125/yr)</option>
+                <option value={300}>Premium (~$300/yr)</option>
+              </select>
             </div>
           </div>
 
           <Separator />
 
-          <label className="flex items-start gap-3 text-sm">
+          <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-muted/30 p-3 text-sm">
             <Checkbox
               checked={sCorp}
-              onCheckedChange={(v) => setSCorp(Boolean(v))}
+              onCheckedChange={(v) => setSCorp(v === true)}
               className="mt-0.5"
             />
             <span>
