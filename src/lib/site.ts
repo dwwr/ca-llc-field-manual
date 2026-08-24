@@ -11,13 +11,25 @@ export const SITE_ROUTES = [
   { path: "/contact", changeFrequency: "yearly" as const, priority: 0.3 },
 ];
 
+function withHttps(hostOrUrl: string): string {
+  const trimmed = hostOrUrl.trim().replace(/\/$/, "");
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+}
+
 export function getSiteUrl(): string {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (configured) {
-    return configured.replace(/\/$/, "");
+    return withHttps(configured);
+  }
+  const production = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  if (production) {
+    return withHttps(production);
   }
   if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
+    return withHttps(process.env.VERCEL_URL);
   }
   return "http://localhost:43123";
 }
