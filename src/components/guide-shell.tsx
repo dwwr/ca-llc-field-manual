@@ -9,6 +9,7 @@ export function GuideShell({
   toc,
   disclaimer,
   onThisPage,
+  ad,
   children,
 }: {
   kicker?: string;
@@ -17,6 +18,7 @@ export function GuideShell({
   toc?: TocItem[];
   disclaimer: string;
   onThisPage: string;
+  ad?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -36,6 +38,7 @@ export function GuideShell({
         <div className="mt-6">
           <Disclaimer text={disclaimer} />
         </div>
+        {ad}
         <div className="prose-manual mt-10">{children}</div>
       </article>
       {toc && toc.length > 0 ? (
