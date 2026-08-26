@@ -43,3 +43,8 @@ next-env.d.ts
 
 # local agent scratch
 /agent-tools/
+
+# storybook
+*storybook.log
+storybook-static
+/public/storybook

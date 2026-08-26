@@ -6,6 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      // Storybook iframe build is for humans; keep crawlers on the guide.
+      disallow: ["/storybook/"],
     },
     sitemap: absoluteUrl("/sitemap.xml"),
   };
