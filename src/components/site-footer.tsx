@@ -2,6 +2,9 @@ import Link from "next/link";
 import { Disclaimer } from "@/components/disclaimer";
 import type { LegalNavItem } from "@/lib/copy";
 
+const linkClass =
+  "text-xs text-muted-foreground underline-offset-3 hover:text-foreground hover:underline";
+
 export function SiteFooter({
   disclaimer,
   note,
@@ -19,15 +22,17 @@ export function SiteFooter({
         <Disclaimer text={disclaimer} compact />
         <p className="text-xs text-muted-foreground">{note}</p>
         <nav className="flex flex-wrap gap-x-4 gap-y-1" aria-label={legalAria}>
-          {legal.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-xs text-muted-foreground underline-offset-3 hover:text-foreground hover:underline"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {legal.map((item) =>
+            item.external ? (
+              <a key={item.href} href={item.href} className={linkClass}>
+                {item.label}
+              </a>
+            ) : (
+              <Link key={item.href} href={item.href} className={linkClass}>
+                {item.label}
+              </Link>
+            )
+          )}
         </nav>
       </div>
     </footer>

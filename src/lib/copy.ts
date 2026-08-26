@@ -54,6 +54,8 @@ export type GuideCopy = {
 export type LegalNavItem = {
   href: string;
   label: string;
+  /** Use a plain <a> (not Next Link) — needed for /storybook/ static assets. */
+  external?: boolean;
 };
 
 const site = {
@@ -77,10 +79,13 @@ const site = {
   footerNote:
     "Figures checked against California Franchise Tax Board LLC guidance (updated March 5, 2026), Secretary of State Form LLC-1, CDTFA Regulation 1502, and the SSA 2026 contribution and benefit base.",
   footerLegalAria: "About and legal",
+  storybookCta: "Open Storybook",
+  storybookHref: "/storybook/",
   legalNav: [
     { href: "/about", label: "About" },
     { href: "/privacy", label: "Privacy" },
     { href: "/contact", label: "Contact" },
+    { href: "/storybook/", label: "Open Storybook", external: true },
   ] satisfies LegalNavItem[],
 };
 

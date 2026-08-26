@@ -28,6 +28,10 @@ npm run build
 npm start
 ```
 
+## Storybook
+
+The header **Open Storybook** button and footer link go to `/storybook/`. In development that rewrites to the Storybook server (run `npm run storybook` alongside `npm run dev`). Production builds embed a static Storybook under `public/storybook` via `prebuild`.
+
 ## Official starting points
 
 - [bizfile Online](https://bizfileonline.sos.ca.gov/) — form the LLC
